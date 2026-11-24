@@ -24,7 +24,7 @@ const T = (name, summary, prompt, feels = [], demo = 'card', caption = '') => ({
 const TERMS = [
   T('Padding', "The space between a container's edge and the content inside it.", 'Increase the card inner padding to 20px on all sides so text and button breathe, keeping inner gaps unchanged.', ['New', 'Cramped'], 'card', 'padding: 20px'),
   T('Gap', 'The space between sibling items in a layout.', 'Set a 12px gap between the cards in the row so they stay related but readable.', ['Cramped'], 'card', 'gap: 12px'),
-  T('Line Height', 'The vertical rhythm between lines of text.', 'Increase the body line height to 1.6 so longer paragraphs stay comfortable to read.', ['Cramped'], 'type', 'line-height: 1.6'),
+  T('Line Height', 'The vertical rhythm between lines of text.', 'Increase the body line height to 1.6 so longer paragraphs stay comfortable to read.', ['Cramped'], 'type', 'line-height: 1.75'),
   T('Proximity', 'Elements that belong together should sit closer together.', 'Group each label with its input and separate it from the next field with 24px.', ['Cramped'], 'card', 'proximity: 8px / 24px'),
   T('Whitespace', 'Intentional empty space that gives content room to breathe.', 'Add 64px of breathing room above the section heading and trim the space inside cards.', ['Cramped'], 'card', 'whitespace: 64px'),
   T('Divider vs. Space', 'Space separates; a divider groups. Prefer one per boundary.', 'Replace the divider between list rows with 16px of space instead.', ['Cramped'], 'card', 'spacing: 16px'),
@@ -196,6 +196,7 @@ const I18N = {
     badge: 'Popular',
     cardDesc: 'Unlimited boards, custom domains, and full version history.',
     cardCta: 'Upgrade to Pro',
+    period: '/mo',
     demoTitle: 'Design that feels inevitable',
     demoBody: 'Good interfaces disappear. What remains is the pace of reading, the quiet rhythm of space, and a hierarchy that answers the next question before it is asked.',
     demoNums: ['1,204 views', '98.5% uptime', '$12.00 / mo'],
@@ -238,6 +239,7 @@ const I18N = {
     badge: '热门',
     cardDesc: '无限画板、自定义域名与完整版本历史。',
     cardCta: '升级到专业版',
+    period: '/月',
     demoTitle: '设计，应当浑然天成',
     demoBody: '好的界面会消失。留下的是阅读的节奏、空间的呼吸，以及在下个问题被提出前就给出答案的层级。',
     demoNums: ['1,204 次浏览', '98.5% 可用性', '$12.00 / 月'],
@@ -367,7 +369,7 @@ function cardDemo() {
             </div>
             <div class="demo-price">
               <span class="demo-amount">$12</span>
-              <span class="demo-period">/mo</span>
+              <span class="demo-period">${dict.period}</span>
             </div>
           </div>
           <p class="demo-desc">${dict.cardDesc}</p>
