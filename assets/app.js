@@ -174,24 +174,13 @@ const I18N = {
     copied: 'Copied',
     langText: '中',
     langAria: '切换到中文',
+    themeToDark: 'Switch to dark appearance',
+    themeToLight: 'Switch to light appearance',
     empty: 'No terms match that filter.',
     tight: 'Tight',
     balanced: 'Balanced',
-    about: 'I’m Ian, a product designer making all sorts of odds and ends.',
-    more: 'More',
-    followers: '10k+ followers',
-    stars: '10k+ stars',
     navVocab: 'Design Vocabulary',
     navSkills: 'Design Skills',
-    p1name: 'Design Engineer Notes',
-    p1desc: 'Build UI with AI that doesn’t look cheap. See what’s off, then get AI to fix it.',
-    p1cta: 'Enroll now',
-    p2name: 'Indie Builders',
-    p2desc: 'Beyond the feed, swap notes and share work with people building with AI.',
-    p2cta: 'Join us',
-    p3name: 'Feature your product',
-    p3desc: 'Let people who care about AI and product design see what you’ve built.',
-    p3cta: 'Let’s talk',
     plan: 'Pro',
     badge: 'Popular',
     cardDesc: 'Unlimited boards, custom domains, and full version history.',
@@ -217,24 +206,13 @@ const I18N = {
     copied: '已复制',
     langText: 'EN',
     langAria: 'Switch to English',
+    themeToDark: '切换到深色外观',
+    themeToLight: '切换到浅色外观',
     empty: '没有符合筛选条件的术语。',
     tight: '紧凑',
     balanced: '平衡',
-    about: '我是一名产品设计师，平时做些零零碎碎的东西。',
-    more: '更多',
-    followers: '10k+ 关注者',
-    stars: '10k+ Star',
     navVocab: '设计词汇',
     navSkills: '设计 Skill',
-    p1name: '设计工程师笔记',
-    p1desc: '用 AI 做出不廉价的界面。先看出问题，再让 AI 修好。',
-    p1cta: '立即报名',
-    p2name: '独立开发者',
-    p2desc: '不止于信息流，与做 AI 产品的人交换笔记、分享作品。',
-    p2cta: '加入我们',
-    p3name: '展示你的产品',
-    p3desc: '让关心 AI 与产品设计的人看到你的作品。',
-    p3cta: '联系我们',
     plan: '专业版',
     badge: '热门',
     cardDesc: '无限画板、自定义域名与完整版本历史。',
@@ -254,23 +232,26 @@ const I18N = {
 
 const slugify = (name) => name.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
+const THEME_KEY = 'design-vocab-theme';
+
 const state = {
   lang: 'en',
   term: 'Padding',
   feel: null,
   query: '',
   compare: 'balanced',
+  theme: 'light',
 };
 
 const el = {
   index: document.getElementById('termIndex'),
+  indexScroll: document.querySelector('.vocab-index'),
   detail: document.getElementById('detail'),
   searchInput: document.getElementById('searchInput'),
   searchBox: document.getElementById('searchBox'),
   feelsBar: document.querySelector('.vocab-feels-bar'),
   langSwitch: document.getElementById('langSwitch'),
-  promo: document.querySelector('.site-promo'),
-  promoDots: document.querySelector('.site-promo-dots'),
+  themeSwitch: document.getElementById('themeSwitch'),
 };
 
 const tr = () => I18N[state.lang];
@@ -340,24 +321,32 @@ function renderIndex(centerSelected = false) {
 }
 
 function centerSelectedItem() {
+  const scroller = el.indexScroll;
   const active = el.index.querySelector('.is-selected');
   if (!active) return;
-  const target = active.offsetLeft - (el.index.clientWidth - active.offsetWidth) / 2;
-  el.index.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
+  const target = active.offsetTop - (scroller.clientHeight - active.offsetHeight) / 2;
+  scroller.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
 }
 
 function updateFades() {
-  const index = el.index;
-  document.querySelector('.vocab-fade--left')?.classList.toggle('is-visible', index.scrollLeft > 4);
-  const max = index.scrollWidth - index.clientWidth;
-  document.querySelector('.vocab-fade--right')?.classList.toggle('is-visible', max - index.scrollLeft > 4);
+  const scroller = el.indexScroll;
+  document.querySelector('.vocab-fade--top')?.classList.toggle('is-visible', scroller.scrollTop > 4);
+  const max = scroller.scrollHeight - scroller.clientHeight;
+  document.querySelector('.vocab-fade--bottom')?.classList.toggle('is-visible', max - scroller.scrollTop > 4);
 }
 
 /* ------------------------------------------------------------ demos */
 
-function cardDemo() {
+function cardDemo(term) {
   const pad = state.compare === 'tight' ? 8 : 20;
   const dict = tr();
+  const measure =
+    term.name === 'Padding'
+      ? `<div class="demo-measure" aria-hidden="true">
+          <div class="demo-measure-ring"></div>
+          <span class="demo-measure-label">padding: ${pad}px</span>
+        </div>`
+      : '';
   return `
     <div class="demo-stage" style="--pad:${pad}px">
       <div class="demo-card">
@@ -376,10 +365,7 @@ function cardDemo() {
           <span class="demo-cta">${dict.cardCta}</span>
         </div>
       </div>
-      <div class="demo-measure" aria-hidden="true">
-        <div class="demo-measure-fill"></div>
-        <span class="demo-measure-label">padding: ${pad}px</span>
-      </div>
+      ${measure}
     </div>`;
 }
 
@@ -519,7 +505,7 @@ function buildStage(term) {
   if (term.demo === 'type') return typeDemo(term);
   if (term.demo === 'color') return colorDemo(term);
   if (term.demo === 'motion') return motionDemo(term);
-  return cardDemo();
+  return cardDemo(term);
 }
 
 function captionFor(term) {
@@ -580,6 +566,16 @@ function renderDetail(animate = true) {
   el.detail.querySelector('.vocab-copy-btn')?.addEventListener('click', copyPrompt);
 }
 
+function pulseCanvas() {
+  const viewport = el.detail.querySelector('.vocab-canvas-viewport');
+  if (!viewport) return;
+  viewport.classList.remove('is-flashing');
+  void viewport.offsetWidth;
+  viewport.classList.add('is-flashing');
+  window.clearTimeout(pulseCanvas.timer);
+  pulseCanvas.timer = window.setTimeout(() => viewport.classList.remove('is-flashing'), 960);
+}
+
 function setCompare(next) {
   if (state.compare === next) return;
   state.compare = next;
@@ -594,6 +590,7 @@ function setCompare(next) {
     btn.setAttribute('aria-pressed', String(btn.dataset.state === next));
   });
   updateToggleThumb();
+  pulseCanvas();
 }
 
 function updateToggleThumb() {
@@ -646,6 +643,27 @@ function selectTerm(name, fromIndex) {
   if (fromIndex) centerSelectedItem();
 }
 
+/* --------------------------------------------------------------- theme */
+
+function loadTheme() {
+  try {
+    return localStorage.getItem(THEME_KEY) === 'dark' ? 'dark' : 'light';
+  } catch {
+    return 'light';
+  }
+}
+
+function updateThemeLabel() {
+  const next = state.theme === 'dark' ? tr().themeToLight : tr().themeToDark;
+  el.themeSwitch.title = next;
+  el.themeSwitch.setAttribute('aria-label', next);
+}
+
+function applyTheme() {
+  document.documentElement.dataset.theme = state.theme;
+  updateThemeLabel();
+}
+
 /* --------------------------------------------------------------- i18n */
 
 function applyLanguage(animate = true) {
@@ -659,50 +677,12 @@ function applyLanguage(animate = true) {
   el.langSwitch.textContent = dict.langText;
   el.langSwitch.title = dict.langAria;
   el.langSwitch.setAttribute('aria-label', dict.langAria);
+  updateThemeLabel();
   document.title = `${dict.title} — Topinspo`;
   renderFeels();
   renderIndex(false);
   renderDetail(animate);
 }
-
-/* ---------------------------------------------------------------- promo */
-
-let promoIndex = 0;
-let promoTimer = null;
-const promoCards = [...document.querySelectorAll('.site-promo-card')];
-const promoDots = [...el.promoDots.querySelectorAll('button')];
-
-function showPromo(index) {
-  promoIndex = (index + promoCards.length) % promoCards.length;
-  promoCards.forEach((card, i) => {
-    card.classList.toggle('is-active', i === promoIndex);
-    card.setAttribute('aria-hidden', String(i !== promoIndex));
-    card.tabIndex = i === promoIndex ? 0 : -1;
-  });
-  promoDots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === promoIndex)));
-}
-
-function startPromo() {
-  stopPromo();
-  promoTimer = setInterval(() => showPromo(promoIndex + 1), 5200);
-}
-
-function stopPromo() {
-  if (promoTimer) clearInterval(promoTimer);
-  promoTimer = null;
-}
-
-promoDots.forEach((dot, i) =>
-  dot.addEventListener('click', () => {
-    showPromo(i);
-    startPromo();
-  })
-);
-
-el.promo.addEventListener('mouseenter', stopPromo);
-el.promo.addEventListener('mouseleave', startPromo);
-el.promo.addEventListener('focusin', stopPromo);
-el.promo.addEventListener('focusout', startPromo);
 
 /* ---------------------------------------------------------------- init */
 
@@ -715,6 +695,8 @@ function initFromUrl() {
 
 function init() {
   initFromUrl();
+  state.theme = loadTheme();
+  applyTheme();
   renderFeels();
   renderIndex(true);
   renderDetail(true);
@@ -744,16 +726,23 @@ function init() {
     }
   });
 
-  el.index.addEventListener('scroll', updateFades, { passive: true });
+  el.indexScroll.addEventListener('scroll', updateFades, { passive: true });
 
   el.langSwitch.addEventListener('click', () => {
     state.lang = state.lang === 'en' ? 'zh' : 'en';
     applyLanguage(true);
   });
 
-  showPromo(0);
-  startPromo();
+  el.themeSwitch.addEventListener('click', () => {
+    state.theme = state.theme === 'dark' ? 'light' : 'dark';
+    applyTheme();
+    try {
+      localStorage.setItem(THEME_KEY, state.theme);
+    } catch {}
+  });
+
   updateFades();
+  requestAnimationFrame(updateFades);
 }
 
 init();
