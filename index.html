@@ -22,8 +22,8 @@
   <div class="app">
     <aside class="site-sidebar">
       <nav aria-label="Primary navigation" class="site-nav">
-        <button type="button" aria-current="page" data-i18n="navVocab">Design Vocabulary</button>
-        <button type="button" data-i18n="navSkills">Design Skills</button>
+        <button type="button" id="navVocab" data-view="vocab" aria-current="page" data-i18n="navVocab">Design Vocabulary</button>
+        <button type="button" id="navSkills" data-view="skills" data-i18n="navSkills">Design Skills</button>
       </nav>
     </aside>
 
@@ -31,7 +31,7 @@
       <div class="feed-panel">
         <section aria-label="Design vocabulary" class="vocab-page">
           <header class="feed-heading">
-            <h1 data-i18n="title">Design Vocabulary</h1>
+            <h1 id="pageTitle">Design Vocabulary</h1>
             <div class="page-header-actions">
               <button type="button" class="focus-ring icon-switch" id="themeSwitch" aria-label="Switch to dark appearance" title="Switch to dark appearance">
                 <svg class="icon-moon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -46,29 +46,39 @@
             </div>
           </header>
 
-          <div class="vocab-toolbar">
-            <div class="vocab-feels-bar" role="group" aria-label="Jump to terms by design issue">
-              <span class="vocab-feels-label" data-i18n="jumpTo">Jump to</span>
+          <div id="vocabView">
+            <div class="vocab-toolbar">
+              <div class="vocab-feels-bar" role="group" aria-label="Jump to terms by design issue">
+                <span class="vocab-feels-label" data-i18n="jumpTo">Jump to</span>
+              </div>
+              <div class="vocab-search" id="searchBox">
+                <svg viewBox="0 0 16 16" class="vocab-search-icon" fill="none" aria-hidden="true">
+                  <circle cx="7.25" cy="7.25" r="4.5" stroke="currentColor" stroke-width="1.35"></circle>
+                  <path d="M10.8 10.8 13.5 13.5" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"></path>
+                </svg>
+                <input type="text" id="searchInput" placeholder="Filter terms…" aria-label="Filter design terms" class="vocab-search-input" autocomplete="off" spellcheck="false" />
+                <kbd class="vocab-search-kbd" aria-hidden="true">/</kbd>
+              </div>
             </div>
-            <div class="vocab-search" id="searchBox">
-              <svg viewBox="0 0 16 16" class="vocab-search-icon" fill="none" aria-hidden="true">
-                <circle cx="7.25" cy="7.25" r="4.5" stroke="currentColor" stroke-width="1.35"></circle>
-                <path d="M10.8 10.8 13.5 13.5" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"></path>
-              </svg>
-              <input type="text" id="searchInput" placeholder="Filter terms…" aria-label="Filter design terms" class="vocab-search-input" autocomplete="off" spellcheck="false" />
-              <kbd class="vocab-search-kbd" aria-hidden="true">/</kbd>
+
+            <div class="vocab-workspace">
+              <div class="vocab-index-wrap">
+                <div class="vocab-fade vocab-fade--top" aria-hidden="true"></div>
+                <nav aria-label="Design terms list" class="vocab-index">
+                  <div class="vocab-index-list" id="termIndex"></div>
+                </nav>
+                <div class="vocab-fade vocab-fade--bottom" aria-hidden="true"></div>
+              </div>
+              <div class="vocab-detail" id="detail" aria-live="polite"></div>
             </div>
           </div>
 
-          <div class="vocab-workspace">
-            <div class="vocab-index-wrap">
-              <div class="vocab-fade vocab-fade--top" aria-hidden="true"></div>
-              <nav aria-label="Design terms list" class="vocab-index">
-                <div class="vocab-index-list" id="termIndex"></div>
-              </nav>
-              <div class="vocab-fade vocab-fade--bottom" aria-hidden="true"></div>
+          <div class="skills-view" id="skillsView" hidden>
+            <div class="skills-head">
+              <p class="skills-intro" data-i18n="skillsIntro">The most-starred design and UI engineering projects on GitHub right now.</p>
+              <span class="skills-sort" data-i18n="skillsSort">Sorted by GitHub stars</span>
             </div>
-            <div class="vocab-detail" id="detail" aria-live="polite"></div>
+            <div class="skills-list" id="skillsList"></div>
           </div>
         </section>
       </div>

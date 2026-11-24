@@ -163,6 +163,90 @@ TERMS.forEach((term) => {
   if (zh) term.zh = { name: zh[0], summary: zh[1], prompt: zh[2] };
 });
 
+/* GitHub repos, sorted by current star count (fetched from the GitHub API) */
+const SKILLS = [
+  {
+    repo: 'excalidraw/excalidraw',
+    stars: 136223,
+    lang: 'TypeScript',
+    color: '#3178c6',
+    desc: 'Virtual whiteboard for sketching hand-drawn like diagrams.',
+    zh: '手绘风格的虚拟白板，用于快速画图和协作。',
+  },
+  {
+    repo: 'shadcn-ui/ui',
+    stars: 128922,
+    lang: 'TypeScript',
+    color: '#3178c6',
+    desc: 'Composable, accessible components you can copy, customize and own.',
+    zh: '可组合、可无障碍使用的组件，直接复制进项目并按需定制。',
+  },
+  {
+    repo: 'ant-design/ant-design',
+    stars: 100360,
+    lang: 'TypeScript',
+    color: '#3178c6',
+    desc: 'An enterprise-class UI design language and React component library.',
+    zh: '企业级 UI 设计语言与 React 组件库。',
+  },
+  {
+    repo: 'mui/material-ui',
+    stars: 99391,
+    lang: 'JavaScript',
+    color: '#f1e05a',
+    desc: 'Comprehensive React component library implementing Material Design.',
+    zh: '完整实现 Material Design 的 React 组件库。',
+  },
+  {
+    repo: 'tailwindlabs/tailwindcss',
+    stars: 98724,
+    lang: 'TypeScript',
+    color: '#3178c6',
+    desc: 'A utility-first CSS framework for rapid UI development.',
+    zh: '原子化 CSS 框架，用工具类快速搭建界面。',
+  },
+  {
+    repo: 'storybookjs/storybook',
+    stars: 91701,
+    lang: 'TypeScript',
+    color: '#3178c6',
+    desc: 'The workshop for building, documenting and testing UI components in isolation.',
+    zh: '在隔离环境中开发、记录与测试 UI 组件的工作台。',
+  },
+  {
+    repo: 'penpot/penpot',
+    stars: 62689,
+    lang: 'Clojure',
+    color: '#db5855',
+    desc: 'Open-source design platform for product teams that need scalable collaboration.',
+    zh: '面向产品团队的开源设计协作平台。',
+  },
+  {
+    repo: 'tldraw/tldraw',
+    stars: 51561,
+    lang: 'TypeScript',
+    color: '#3178c6',
+    desc: 'Build infinite canvas apps in React with a tiny, fast SDK.',
+    zh: '用 React 构建无限画布应用的轻量 SDK。',
+  },
+  {
+    repo: 'chakra-ui/chakra-ui',
+    stars: 40741,
+    lang: 'TypeScript',
+    color: '#3178c6',
+    desc: 'A component system for building SaaS products with speed.',
+    zh: '快速构建 SaaS 产品的组件系统。',
+  },
+  {
+    repo: 'motiondivision/motion',
+    stars: 35509,
+    lang: 'TypeScript',
+    color: '#3178c6',
+    desc: 'A modern animation library for React and JavaScript.',
+    zh: '面向 React 与 JavaScript 的现代动画库。',
+  },
+];
+
 const I18N = {
   en: {
     title: 'Design Vocabulary',
@@ -181,6 +265,9 @@ const I18N = {
     balanced: 'Balanced',
     navVocab: 'Design Vocabulary',
     navSkills: 'Design Skills',
+    skillsTitle: 'Design Skills',
+    skillsIntro: 'The most-starred design and UI engineering projects on GitHub right now.',
+    skillsSort: 'Sorted by GitHub stars',
     plan: 'Pro',
     badge: 'Popular',
     cardDesc: 'Unlimited boards, custom domains, and full version history.',
@@ -213,6 +300,9 @@ const I18N = {
     balanced: '平衡',
     navVocab: '设计词汇',
     navSkills: '设计 Skill',
+    skillsTitle: '设计 Skill',
+    skillsIntro: 'GitHub 上当前 Star 数最高的设计与 UI 工程类项目。',
+    skillsSort: '按 GitHub Star 排序',
     plan: '专业版',
     badge: '热门',
     cardDesc: '无限画板、自定义域名与完整版本历史。',
@@ -241,6 +331,7 @@ const state = {
   query: '',
   compare: 'balanced',
   theme: 'light',
+  view: 'vocab',
 };
 
 const el = {
@@ -252,6 +343,12 @@ const el = {
   feelsBar: document.querySelector('.vocab-feels-bar'),
   langSwitch: document.getElementById('langSwitch'),
   themeSwitch: document.getElementById('themeSwitch'),
+  vocabView: document.getElementById('vocabView'),
+  skillsView: document.getElementById('skillsView'),
+  skillsList: document.getElementById('skillsList'),
+  pageTitle: document.getElementById('pageTitle'),
+  navVocab: document.getElementById('navVocab'),
+  navSkills: document.getElementById('navSkills'),
 };
 
 const tr = () => I18N[state.lang];
@@ -337,180 +434,612 @@ function updateFades() {
 
 /* ------------------------------------------------------------ demos */
 
-function cardDemo(term) {
-  const pad = state.compare === 'tight' ? 8 : 20;
-  const dict = tr();
-  const measure =
-    term.name === 'Padding'
-      ? `<div class="demo-measure" aria-hidden="true">
+/* ------------------------------------------------------------ demos */
+
+const metric = (text) => `<span class="m-metric">${text}</span>`;
+const stage = (inner) => `<div class="demo-stage"><div class="demo-inner">${inner}</div></div>`;
+const avatar = (text, color) => `<span class="m-avatar" style="background:${color}">${text}</span>`;
+
+const DEMOS = {
+  Padding() {
+    const pad = state.compare === 'tight' ? 8 : 20;
+    const dict = tr();
+    return `
+      <div class="demo-stage" style="--pad:${pad}px">
+        <div class="demo-card">
+          <div class="demo-card-inner">
+            <div class="demo-row">
+              <div class="demo-row-left">
+                <span class="demo-plan">${dict.plan}</span>
+                <span class="demo-badge">${dict.badge}</span>
+              </div>
+              <div class="demo-price">
+                <span class="demo-amount">$12</span>
+                <span class="demo-period">${dict.period}</span>
+              </div>
+            </div>
+            <p class="demo-desc">${dict.cardDesc}</p>
+            <span class="demo-cta">${dict.cardCta}</span>
+          </div>
+        </div>
+        <div class="demo-measure" aria-hidden="true">
           <div class="demo-measure-ring"></div>
           <span class="demo-measure-label">padding: ${pad}px</span>
-        </div>`
-      : '';
-  return `
-    <div class="demo-stage" style="--pad:${pad}px">
-      <div class="demo-card">
-        <div class="demo-card-inner">
-          <div class="demo-row">
-            <div class="demo-row-left">
-              <span class="demo-plan">${dict.plan}</span>
-              <span class="demo-badge">${dict.badge}</span>
-            </div>
-            <div class="demo-price">
-              <span class="demo-amount">$12</span>
-              <span class="demo-period">${dict.period}</span>
-            </div>
-          </div>
-          <p class="demo-desc">${dict.cardDesc}</p>
-          <span class="demo-cta">${dict.cardCta}</span>
         </div>
-      </div>
-      ${measure}
-    </div>`;
-}
-
-function typeDemo(term) {
-  const dict = tr();
-  const base = {
-    lh: 1.55,
-    weight: 400,
-    tracking: 0,
-    clamp: 0,
-    balance: false,
-    middle: false,
-    title: dict.demoTitle,
-    body: dict.demoBody,
-  };
-
-  switch (term.name) {
-    case 'Line Height':
-      base.lh = 1.75;
-      break;
-    case 'Hierarchy':
-      base.title = dict.hierarchyTitle;
-      base.body = dict.hierarchyBody;
-      break;
-    case 'Font Weight':
-      base.weight = 600;
-      break;
-    case 'Tracking':
-      base.tracking = -0.02;
-      break;
-    case 'Text Balance':
-      base.balance = true;
-      base.title = dict.balanceTitle;
-      break;
-    case 'Line Clamp':
-      base.clamp = 2;
-      break;
-    case 'Baseline Alignment':
-      base.title = dict.baselineTitle;
-      break;
-    case 'Middle Truncation':
-      base.middle = true;
-      base.title = 'brand-identity-guidelines.png';
-      base.body = dict.middleBody;
-      break;
-    default:
-      break;
-  }
-
-  return `
-    <div class="specimen-type">
-      <h3 class="specimen-type-title" style="font-size:${base.middle ? 16 : 19}px;text-wrap:${base.balance ? 'balance' : 'pretty'}">${base.title}</h3>
-      <p class="specimen-type-body" style="line-height:${base.lh};font-weight:${base.weight};letter-spacing:${base.tracking}em;${base.clamp ? `-webkit-line-clamp:${base.clamp};` : ''}">${base.body}</p>
-      <div class="specimen-nums">
-        ${dict.demoNums.map((n) => `<span>${n}</span>`).join('')}
-      </div>
-    </div>`;
-}
-
-function colorDemo(term) {
-  const dict = tr();
-  if (term.name === 'Contrast' || term.name === 'Muted Text') {
-    const [a, b, c, d] = dict.contrastLabels;
-    return `
-      <div class="specimen-contrast">
-        <div><strong style="color:#171717">${a}</strong><span style="color:#737373">4.6 : 1</span></div>
-        <div><strong style="color:#525252">${b}</strong><span style="color:#a1a1aa">3.2 : 1</span></div>
-        <div><strong style="color:#a1a1aa">${c}</strong><span style="color:#d4d4d8">1.8 : 1</span></div>
-        <div><strong style="color:#5b6f00">${d}</strong><span style="color:#8a9a2e">4.9 : 1</span></div>
       </div>`;
-  }
+  },
 
-  let colors = [
-    ['#5b6f00', '#5b6f00'],
-    ['#6f8420', '#6f8420'],
-    ['#8a9a45', '#8a9a45'],
-    ['#adb86f', '#adb86f'],
-    ['#d3da9e', '#d3da9e'],
-  ];
+  Gap: () =>
+    stage(`
+      <div class="m-gap-row">
+        <span class="m-tile">A</span><span class="m-band"></span>
+        <span class="m-tile">B</span><span class="m-band"></span>
+        <span class="m-tile">C</span>
+      </div>
+      ${metric('gap: 12px')}`),
 
-  if (term.name === 'Semantic Color') {
-    colors = [
-      ['#3f7a3a', '#3f7a3a'],
-      ['#9a7a17', '#9a7a17'],
-      ['#a33a2c', '#a33a2c'],
-      ['#2f5d9a', '#2f5d9a'],
-      ['#5b6f00', '#5b6f00'],
-    ];
-  } else if (term.name === 'Scrim') {
-    colors = [
-      ['#171717', '40%'],
-      ['#171717', '55%'],
-      ['#171717', '70%'],
-      ['#171717', '85%'],
-    ];
-  }
+  'Line Height': () =>
+    stage(`
+      <div class="m-lh-block">
+        <p>Good interfaces disappear.</p>
+        <p>What remains is rhythm.</p>
+        <p>Space answers first.</p>
+      </div>
+      ${metric('line-height: 1.75')}`),
 
-  return `
-    <div class="specimen-color">
-      ${colors
-        .map(
-          ([c, label]) => `
-        <div class="specimen-swatch">
-          <i style="background:${c}${label === c ? '' : ';opacity:.85'}"></i>
-          <span>${label}</span>
-        </div>`
-        )
-        .join('')}
-    </div>`;
-}
+  Proximity: () =>
+    stage(`
+      <div class="m-form">
+        <span class="m-label">Work email</span>
+        <div class="m-input">you@studio.com</div>
+        <span class="m-band-h"><em>24px</em></span>
+        <span class="m-label">Password</span>
+        <div class="m-input">••••••••</div>
+      </div>`),
 
-function motionDemo(term) {
-  const easing = {
-    Easing: 'cubic-bezier(0.32, 0.72, 0, 1)',
-    'Directional Motion': 'cubic-bezier(0.22, 1, 0.36, 1)',
-    Spring: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
-    Stagger: 'cubic-bezier(0.32, 0.72, 0, 1)',
-    'Press State': 'cubic-bezier(0.2, 0, 0, 1)',
-    'Shared Element': 'cubic-bezier(0.4, 0, 0.2, 1)',
-    'Origin-Aware Motion': 'cubic-bezier(0.16, 1, 0.3, 1)',
-    'Hover Reveal': 'cubic-bezier(0.32, 0.72, 0, 1)',
-  }[term.name] || 'cubic-bezier(0.32, 0.72, 0, 1)';
+  Whitespace: () =>
+    stage(`
+      <span class="m-eyebrow">Section</span>
+      <div class="m-ws-band"><span>64 px</span></div>
+      <h4 class="m-title">Breathing room</h4>
+      <p class="m-text">Content begins after the pause.</p>`),
 
-  const dots =
-    term.name === 'Stagger'
-      ? [0, 0, 0].map((_, i) => `<span class="motion-dot" style="animation-delay:-${1.2 - i * 0.4}s;opacity:.5"></span>`).join('')
-      : '<span class="motion-dot"></span>';
+  'Divider vs. Space': () =>
+    stage(`
+      <div class="m-list">
+        <div class="m-list-row"><span>Design tokens</span><span class="m-muted">12</span></div>
+        <div class="m-divider"></div>
+        <div class="m-list-row"><span>Components</span><span class="m-muted">48</span></div>
+        <div class="m-band-h m-band-h--tight"><em>16px of space</em></div>
+        <div class="m-list-row"><span>Patterns</span><span class="m-muted">9</span></div>
+      </div>`),
 
-  return `
-    <div class="specimen-motion" style="--motion-ease:${easing}">
-      <div class="motion-track"></div>
-      ${dots}
-    </div>`;
-}
+  Hierarchy: () =>
+    stage(`
+      <div class="m-hier">
+        <div><span class="m-rank">1</span><h4 class="m-h1">A clear order</h4></div>
+        <div><span class="m-rank">2</span><p class="m-body">Titles lead, descriptions follow.</p></div>
+        <div><span class="m-rank">3</span><span class="m-meta">12 terms · 4 min read</span></div>
+      </div>`),
+
+  'Font Weight': () =>
+    stage(`
+      <div class="m-weight">
+        <div><span class="m-w400">Aa</span><span class="m-label">400 · body</span></div>
+        <span class="m-weight-div"></span>
+        <div><span class="m-w600">Aa</span><span class="m-label">600 · title</span></div>
+      </div>`),
+
+  Tracking: () =>
+    stage(`
+      <div class="m-track-block">
+        <span class="m-track m-track--tight">Display</span>
+        <span class="m-label">-0.02em</span>
+      </div>
+      <div class="m-track-block">
+        <span class="m-track m-track--loose">Display</span>
+        <span class="m-label">0.02em</span>
+      </div>`),
+
+  'Tabular Numbers': () =>
+    stage(`
+      <div class="m-table">
+        <div class="m-table-head"><span>Plan</span><span>Price</span></div>
+        <div><span>Basic</span><strong>8.00</strong></div>
+        <div><span>Pro</span><strong>12.00</strong></div>
+        <div><span>Team</span><strong>48.00</strong></div>
+      </div>
+      ${metric('tabular-nums')}`),
+
+  'Text Balance': () =>
+    stage(`
+      <div class="m-balance">
+        <div><span class="m-label">Ragged</span><h4>Design that feels<br>inevitable</h4></div>
+        <div><span class="m-label">Balanced</span><h4 class="m-balanced">Design that feels inevitable</h4></div>
+      </div>`),
+
+  'Line Clamp': () =>
+    stage(`
+      <p class="m-clamp">Good interfaces disappear. What remains is the pace of reading, the quiet rhythm of space, and a hierarchy that answers the next question before it is asked.</p>
+      ${metric('-webkit-line-clamp: 2')}`),
+
+  'Baseline Alignment': () =>
+    stage(`
+      <div class="m-baseline">
+        <span class="m-price">$12</span><span class="m-period">/ month</span>
+        <span class="m-baseline-rule"></span>
+      </div>
+      ${metric('align-items: baseline')}`),
+
+  'Shortcut Hint': () =>
+    stage(`
+      <div class="m-input m-input--search">
+        <span>Search actions…</span><kbd>⌘K</kbd>
+      </div>
+      ${metric('hint next to the action')}`),
+
+  'Middle Truncation': () =>
+    stage(`
+      <div class="m-file">
+        <span class="m-file-icon"></span>
+        <span class="m-file-name">brand-identity-guidelines.png</span>
+      </div>
+      ${metric('brand-identity…guidelines.png')}`),
+
+  Accent: () =>
+    stage(`
+      <div class="m-swatches">
+        <i style="background:#f4f4f2"></i>
+        <i style="background:#e4e4df"></i>
+        <i style="background:#d3d3cb"></i>
+        <i class="m-accent-swatch"></i>
+        <i style="background:#171716"></i>
+      </div>
+      ${metric('one accent, used once')}`),
+
+  Contrast() {
+    const [a, b, c, d] = tr().contrastLabels;
+    return stage(`
+      <div class="m-contrast">
+        <div><strong style="color:#171717">${a}</strong><span>4.6 : 1</span></div>
+        <div><strong style="color:#525252">${b}</strong><span>3.2 : 1</span></div>
+        <div><strong style="color:#a1a1aa">${c}</strong><span>1.8 : 1</span></div>
+        <div><strong style="color:#5b6f00">${d}</strong><span>4.9 : 1</span></div>
+      </div>`);
+  },
+
+  'Muted Text': () =>
+    stage(`
+      <div class="m-levels">
+        <span class="m-lvl1">Title</span>
+        <span class="m-lvl2">Description</span>
+        <span class="m-lvl3">Metadata</span>
+      </div>
+      ${metric('3 levels of text')}`),
+
+  'Semantic Color': () =>
+    stage(`
+      <div class="m-pill-row">
+        <span class="m-pill m-pill--ok">Success</span>
+        <span class="m-pill m-pill--warn">Warning</span>
+        <span class="m-pill m-pill--danger">Danger</span>
+        <span class="m-pill m-pill--info">Info</span>
+      </div>`),
+
+  'Tint & Shade': () =>
+    stage(`
+      <div class="m-swatches">
+        <i style="background:#eef1d6"></i>
+        <i style="background:#d3da9e"></i>
+        <i style="background:#8a9a45"></i>
+        <i style="background:#5b6f00"></i>
+        <i style="background:#384500"></i>
+      </div>
+      ${metric('tint · shade')}`),
+
+  'Border Radius': () =>
+    stage(`
+      <div class="m-radius-box"><span>16</span></div>
+      ${metric('border-radius: 16px')}`),
+
+  'Concentric Radius': () =>
+    stage(`
+      <div class="m-concentric">
+        <div class="m-outer"><span class="m-inner-btn">Pay</span></div>
+      </div>
+      ${metric('inner = outer − inset')}`),
+
+  'Nested Cards': () =>
+    stage(`
+      <div class="m-nested-outer">
+        <span class="m-label">Workspace</span>
+        <div class="m-nested-inner"><span>Inner card</span><span class="m-muted">hairline</span></div>
+      </div>`),
+
+  'Hairline Border': () =>
+    stage(`
+      <div class="m-hair-table">
+        <div>Header</div><div>Value</div>
+        <div>Row one</div><div>128</div>
+        <div>Row two</div><div>96</div>
+      </div>
+      ${metric('border-width: 0.5px')}`),
+
+  'Optical Alignment': () =>
+    stage(`
+      <div class="m-optical"><span class="m-play"></span></div>
+      ${metric('nudge: +1px')}`),
+
+  'Avatar Stack': () =>
+    stage(`
+      <div class="m-avatars">
+        ${avatar('AL', '#c7b9a3')}${avatar('MK', '#a9b7c6')}${avatar('JS', '#c2b0c6')}${avatar('RT', '#b3c2ae')}${avatar('+8', '#d9d9d2')}
+      </div>
+      ${metric('overlap: −8px')}`),
+
+  'Layered Shadow': () =>
+    stage(`
+      <div class="m-shadow-stack">
+        <div class="m-shadow-card s1"></div>
+        <div class="m-shadow-card s2"></div>
+        <div class="m-shadow-card s3"><span>Elevation</span></div>
+      </div>
+      ${metric('3 layers')}`),
+
+  Scrim: () =>
+    stage(`
+      <div class="m-scrim">
+        <div class="m-scrim-page"><span></span><span></span><span></span></div>
+        <div class="m-scrim-modal"><strong>Confirm changes</strong><span>scrim: 40%</span></div>
+      </div>`),
+
+  'Edge Fade': () =>
+    stage(`
+      <div class="m-edgefade">
+        <div>Design tokens</div><div>Components</div><div>Patterns</div><div>Foundations</div><div>Playground</div>
+      </div>`),
+
+  'Sticky Header': () =>
+    stage(`
+      <div class="m-sticky">
+        <div class="m-sticky-head"><span>Component</span><span>Status</span></div>
+        <div class="m-sticky-body">
+          <div><span>Button</span><span>Shipped</span></div>
+          <div><span>Input</span><span>Shipped</span></div>
+          <div><span>Table</span><span>Review</span></div>
+          <div><span>Chart</span><span>Draft</span></div>
+        </div>
+      </div>`),
+
+  'Floating Bar': () =>
+    stage(`
+      <div class="m-float">
+        <div class="m-float-page"><span></span><span></span><span></span></div>
+        <div class="m-float-bar"><i></i><i></i><i></i><i class="m-float-primary"></i></div>
+      </div>`),
+
+  Easing: () =>
+    stage(`
+      <div class="m-motion-track">
+        <span class="m-motion-ghost"></span>
+        <span class="m-motion-dot m-ease-out"></span>
+      </div>
+      ${metric('cubic-bezier(.32,.72,0,1)')}`),
+
+  'Directional Motion': () =>
+    stage(`
+      <div class="m-slides">
+        <div class="m-slide-card">A</div>
+        <div class="m-slide-card">B</div>
+      </div>
+      ${metric('in from right · out to left')}`),
+
+  Spring: () =>
+    stage(`
+      <div class="m-motion-track">
+        <span class="m-motion-dot m-spring"></span>
+      </div>
+      ${metric('stiffness 260 · damping 24')}`),
+
+  Stagger: () =>
+    stage(`
+      <div class="m-stagger"><i></i><i></i><i></i></div>
+      ${metric('stagger: 40ms')}`),
+
+  'Press State': () =>
+    stage(`
+      <span class="m-press-btn">Publish</span>
+      ${metric('press: scale(0.98)')}`),
+
+  'Shared Element': () =>
+    stage(`
+      <div class="m-morph"><span class="m-morph-thumb"></span></div>
+      ${metric('shared element')}`),
+
+  'Origin-Aware Motion': () =>
+    stage(`
+      <div class="m-origin">
+        <span class="m-origin-trigger"></span>
+        <div class="m-origin-menu"><i></i><i></i><i></i></div>
+      </div>
+      ${metric('transform-origin: trigger')}`),
+
+  'Hover Reveal': () =>
+    stage(`
+      <div class="m-reveal-row">
+        <span>brand-identity.fig</span>
+        <span class="m-reveal-actions"><i></i><i></i></span>
+      </div>
+      ${metric('hover reveal')}`),
+
+  'Button Hierarchy': () =>
+    stage(`
+      <div class="m-btn-row">
+        <span class="m-btn">Publish</span>
+        <span class="m-btn m-btn--ghost">Preview</span>
+        <span class="m-btn m-btn--text">Cancel</span>
+      </div>
+      ${metric('one primary action')}`),
+
+  'Touch Target': () =>
+    stage(`
+      <div class="m-target">
+        <span class="m-target-area"></span>
+        <span class="m-icon-btn">⌫</span>
+      </div>
+      ${metric('44 × 44px hit area')}`),
+
+  'Empty State': () =>
+    stage(`
+      <div class="m-empty">
+        <span class="m-empty-icon">◫</span>
+        <strong>No boards yet</strong>
+        <span class="m-muted">Create one to get started.</span>
+        <span class="m-btn">New board</span>
+      </div>`),
+
+  'Inline Validation': () =>
+    stage(`
+      <div class="m-field">
+        <span class="m-label">Email</span>
+        <div class="m-input m-input--error">name@</div>
+        <span class="m-error">Enter a valid email address</span>
+      </div>`),
+
+  Skeleton: () =>
+    stage(`
+      <div class="m-skeleton">
+        <div class="m-sk-img"></div>
+        <div class="m-sk-line w80"></div>
+        <div class="m-sk-line w60"></div>
+        <div class="m-sk-line w40"></div>
+      </div>`),
+
+  'Popover vs. Tooltip': () =>
+    stage(`
+      <div class="m-popover-demo">
+        <span class="m-tooltip">Describes</span>
+        <div class="m-pop">
+          <strong>Filter</strong>
+          <span class="m-check-row"><i class="m-check is-on"></i>Drafts</span>
+          <span class="m-check-row"><i class="m-check"></i>Published</span>
+        </div>
+      </div>`),
+
+  'Modal vs. Drawer': () =>
+    stage(`
+      <div class="m-drawer">
+        <div class="m-drawer-page"><span></span><span></span><span></span><span></span></div>
+        <div class="m-drawer-panel">
+          <strong>Edit board</strong>
+          <div class="m-input">Board name</div>
+          <span class="m-btn">Save</span>
+        </div>
+      </div>`),
+
+  'Tabs vs. Segmented': () =>
+    stage(`
+      <div class="m-seg"><span class="m-seg-thumb"></span><span class="is-active">Monthly</span><span>Yearly</span></div>
+      ${metric('changing one setting')}`),
+
+  'Switch vs. Checkbox': () =>
+    stage(`
+      <div class="m-settings">
+        <div class="m-setting"><span>Notifications</span><span class="m-switch is-on"><i></i></span></div>
+        <div class="m-setting"><span>Accept terms</span><span class="m-check is-on"></span></div>
+      </div>
+      ${metric('instant · staged')}`),
+
+  'Command Palette': () =>
+    stage(`
+      <div class="m-cmd">
+        <div class="m-cmd-input">Search actions…</div>
+        <div class="m-cmd-row is-active">New board <kbd>N</kbd></div>
+        <div class="m-cmd-row">Invite member <kbd>I</kbd></div>
+        <div class="m-cmd-row">Export <kbd>E</kbd></div>
+      </div>`),
+
+  'Bento Grid': () =>
+    stage(`
+      <div class="m-bento">
+        <div class="b1">Overview</div>
+        <div>Stats</div>
+        <div>Activity</div>
+        <div class="b4">Notes</div>
+      </div>`),
+
+  'Progressive Disclosure': () =>
+    stage(`
+      <div class="m-disclose">
+        <div class="m-disclose-head"><span>Advanced settings</span><span class="m-chev">›</span></div>
+        <div class="m-disclose-hint">3 hidden options</div>
+      </div>`),
+
+  Combobox: () =>
+    stage(`
+      <div class="m-combo">
+        <div class="m-input">Desi<span class="m-caret"></span></div>
+        <div class="m-combo-list">
+          <div class="is-active">Design system</div>
+          <div>Design tokens</div>
+          <div>Design review</div>
+        </div>
+      </div>`),
+
+  'Input Affix': () =>
+    stage(`
+      <div class="m-affix"><span class="m-affix-pre">$</span><span class="m-affix-val">120</span><span class="m-affix-suf">USD</span></div>
+      ${metric('prefix · suffix')}`),
+
+  'Split Button': () =>
+    stage(`
+      <div class="m-split"><span class="m-btn">Publish</span><span class="m-split-caret">▾</span></div>
+      ${metric('main action + variants')}`),
+
+  'Prompt Composer': () =>
+    stage(`
+      <div class="m-composer">
+        <div class="m-composer-input">Ask anything…</div>
+        <div class="m-composer-foot">
+          <span class="m-chip">@file</span>
+          <span class="m-chip">Model 4</span>
+          <span class="m-send">↑</span>
+        </div>
+      </div>`),
+
+  'Streaming Text': () =>
+    stage(`
+      <div class="m-stream">
+        <p>Design is the quiet agreement between what you see and what happens next<span class="m-caret"></span></p>
+        <div class="m-stream-foot"><span class="m-live-dot"></span>Generating…</div>
+      </div>`),
+
+  'Thinking Disclosure': () =>
+    stage(`
+      <div class="m-think">
+        <div class="m-think-head"><span>Thought for 6s</span><span class="m-chev">›</span></div>
+        <p class="m-think-body">Checked spacing, contrast and hierarchy before replying…</p>
+      </div>`),
+
+  'Citation Pill': () =>
+    stage(`
+      <p class="m-cite">Good interfaces disappear.<span class="m-cite-pill">1</span></p>
+      <div class="m-cite-src">1 · Nielsen Norman Group</div>`),
+
+  'Slash Command': () =>
+    stage(`
+      <div class="m-slash">
+        <div class="m-slash-input">/</div>
+        <div class="m-slash-row is-active">/image <span>Generate</span></div>
+        <div class="m-slash-row">/code <span>Write</span></div>
+        <div class="m-slash-row">/web <span>Search</span></div>
+      </div>`),
+
+  'Diff View': () =>
+    stage(`
+      <div class="m-diff">
+        <div class="m-diff-line m-del"><span>−</span><span>padding: 12px</span></div>
+        <div class="m-diff-line m-ins"><span>+</span><span>padding: 20px</span></div>
+        <div class="m-diff-line"><span> </span><span>border-radius: 12px</span></div>
+      </div>`),
+
+  'Undo Toast': () =>
+    stage(`
+      <div class="m-toast"><span>Board deleted</span><span class="m-toast-undo">Undo</span></div>
+      ${metric('6s to undo')}`),
+
+  'Suggested Prompts': () =>
+    stage(`
+      <div class="m-sugg">
+        <span class="m-sugg-chip">Summarize this doc</span>
+        <span class="m-sugg-chip">Find spacing issues</span>
+        <span class="m-sugg-chip">Write release notes</span>
+      </div>`),
+
+  'Tool Call Steps': () =>
+    stage(`
+      <div class="m-steps">
+        <div class="m-step"><i class="m-step-ico is-done">✓</i><span>Search files</span></div>
+        <div class="m-step"><i class="m-step-ico is-done">✓</i><span>Read tokens.json</span></div>
+        <div class="m-step"><i class="m-step-ico is-run"></i><span>Drafting answer</span></div>
+      </div>`),
+
+  'Context Chips': () =>
+    stage(`
+      <div class="m-context">
+        <span class="m-ctx-chip">design-tokens.json ×</span>
+        <span class="m-ctx-chip">styles.css ×</span>
+        <span class="m-ctx-chip">Figma ↗</span>
+      </div>`),
+
+  'Approval Gate': () =>
+    stage(`
+      <div class="m-approval">
+        <strong>Send this email?</strong>
+        <span class="m-muted">To 24 customers</span>
+        <div class="m-approval-actions">
+          <span class="m-btn m-btn--ghost">Cancel</span>
+          <span class="m-btn">Approve</span>
+        </div>
+      </div>`),
+};
 
 function buildStage(term) {
-  if (term.demo === 'type') return typeDemo(term);
-  if (term.demo === 'color') return colorDemo(term);
-  if (term.demo === 'motion') return motionDemo(term);
-  return cardDemo(term);
+  const build = DEMOS[term.name];
+  if (build) return build(term);
+  return stage(`<div class="m-panel">${localize(term).name}</div>`);
 }
 
 function captionFor(term) {
   if (term.name === 'Padding') return `padding: ${state.compare === 'tight' ? 8 : 20}px`;
-  return term.caption || 'padding: 20px';
+  return term.caption || '';
+}
+
+/* ------------------------------------------------------------- skills */
+
+function fmtStars(n) {
+  return n.toLocaleString('en-US');
+}
+
+function renderSkills() {
+  el.skillsList.innerHTML = SKILLS.map((s) => {
+    const desc = state.lang === 'zh' ? s.zh : s.desc;
+    return `
+      <a class="skill-item" href="https://github.com/${s.repo}" target="_blank" rel="noreferrer noopener">
+        <div class="skill-head">
+          <span class="skill-name">${s.repo.split('/')[1]}</span>
+          <span class="skill-stars">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 4 4.4.6-3.2 3.1.8 4.4L8 11.6l-3.9 2.1.8-4.4L1.7 6.2 6.1 5.6z" fill="currentColor"></path></svg>
+            ${fmtStars(s.stars)}
+          </span>
+        </div>
+        <p class="skill-desc">${desc}</p>
+        <div class="skill-meta">
+          <span class="skill-lang"><i style="background:${s.color}"></i>${s.lang}</span>
+          <span class="skill-repo">${s.repo}</span>
+        </div>
+      </a>`;
+  }).join('');
+}
+
+function updatePageTitle() {
+  const dict = tr();
+  const title = state.view === 'vocab' ? dict.title : dict.skillsTitle;
+  el.pageTitle.textContent = title;
+  document.title = `${title} — Topinspo`;
+}
+
+function setView(view) {
+  state.view = view;
+  const isVocab = view === 'vocab';
+  el.vocabView.hidden = !isVocab;
+  el.skillsView.hidden = isVocab;
+  if (isVocab) el.navVocab.setAttribute('aria-current', 'page');
+  else el.navVocab.removeAttribute('aria-current');
+  if (isVocab) el.navSkills.removeAttribute('aria-current');
+  else el.navSkills.setAttribute('aria-current', 'page');
+  if (!isVocab) renderSkills();
+  updatePageTitle();
 }
 
 /* ------------------------------------------------------------ detail */
@@ -561,9 +1090,20 @@ function renderDetail(animate = true) {
       btn.addEventListener('click', () => setCompare(btn.dataset.state));
     });
     updateToggleThumb();
+    showMeasureFor();
   }
 
   el.detail.querySelector('.vocab-copy-btn')?.addEventListener('click', copyPrompt);
+}
+
+let measureTimer = 0;
+
+function showMeasureFor(ms = 3000) {
+  const stageEl = el.detail.querySelector('.demo-stage');
+  if (!stageEl) return;
+  stageEl.classList.add('is-measuring');
+  window.clearTimeout(measureTimer);
+  measureTimer = window.setTimeout(() => stageEl.classList.remove('is-measuring'), ms);
 }
 
 function pulseCanvas() {
@@ -591,6 +1131,7 @@ function setCompare(next) {
   });
   updateToggleThumb();
   pulseCanvas();
+  showMeasureFor();
 }
 
 function updateToggleThumb() {
@@ -678,10 +1219,14 @@ function applyLanguage(animate = true) {
   el.langSwitch.title = dict.langAria;
   el.langSwitch.setAttribute('aria-label', dict.langAria);
   updateThemeLabel();
-  document.title = `${dict.title} — Topinspo`;
-  renderFeels();
-  renderIndex(false);
-  renderDetail(animate);
+  updatePageTitle();
+  if (state.view === 'vocab') {
+    renderFeels();
+    renderIndex(false);
+    renderDetail(animate);
+  } else {
+    renderSkills();
+  }
 }
 
 /* ---------------------------------------------------------------- init */
@@ -720,11 +1265,15 @@ function init() {
   });
 
   document.addEventListener('keydown', (e) => {
+    if (state.view !== 'vocab') return;
     if (e.key === '/' && document.activeElement !== el.searchInput) {
       e.preventDefault();
       el.searchInput.focus();
     }
   });
+
+  el.navVocab.addEventListener('click', () => setView('vocab'));
+  el.navSkills.addEventListener('click', () => setView('skills'));
 
   el.indexScroll.addEventListener('scroll', updateFades, { passive: true });
 
@@ -743,6 +1292,7 @@ function init() {
 
   updateFades();
   requestAnimationFrame(updateFades);
+  updatePageTitle();
 }
 
 init();
