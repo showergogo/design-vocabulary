@@ -1,3 +1,19 @@
+@font-face {
+  font-family: "Hanken Grotesk";
+  font-style: normal;
+  font-weight: 300 800;
+  font-display: swap;
+  src: url("fonts/hanken-grotesk-variable.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Roboto Serif";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("fonts/roboto-serif-variable.woff2") format("woff2");
+}
+
 :root {
   --color-page: #ffffff;
   --color-surface: #ffffff;
@@ -21,7 +37,7 @@
   --rose-line: rgba(214, 112, 138, 0.42);
   --fade-0: rgba(255, 255, 255, 0);
   --scroll-thumb: rgba(0, 0, 0, 0.14);
-  --sans: "Hanken Grotesk", -apple-system, "system-ui", "SF Pro Text", "PingFang SC", system-ui, sans-serif;
+  --sans: "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", system-ui, sans-serif;
   --serif: "Roboto Serif", Georgia, serif;
   --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
   --ease: cubic-bezier(0.645, 0.045, 0.355, 1);
@@ -79,8 +95,8 @@ body {
 }
 
 html[lang="zh-CN"] {
-  --sans: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Hanken Grotesk", -apple-system, system-ui, sans-serif;
-  --serif: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Roboto Serif", Georgia, serif;
+  --sans: "Hanken Grotesk", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", -apple-system, system-ui, sans-serif;
+  --serif: "Roboto Serif", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Georgia, serif;
 }
 
 html[lang="zh-CN"] body {
@@ -569,20 +585,6 @@ html[data-theme="dark"] #themeSwitch .icon-moon {
   padding: 8px;
 }
 
-.vocab-canvas-viewport::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(58% 62% at 50% 46%, var(--rose-glow), rgba(214, 112, 138, 0) 74%);
-  opacity: 0;
-}
-
-.vocab-canvas-viewport.is-entering::after,
-.vocab-canvas-viewport.is-flashing::after {
-  animation: rose-wash 0.95s cubic-bezier(0.32, 0.72, 0, 1) both;
-}
-
 .vocab-canvas-foot {
   display: flex;
   align-items: center;
@@ -671,6 +673,8 @@ html[data-theme="dark"] #themeSwitch .icon-moon {
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-width: 250px;
+  margin: 0 auto;
 }
 
 .m-lh-block p {
@@ -3252,18 +3256,6 @@ html[data-theme="dark"] .specimen-motion {
   }
 }
 
-@keyframes rose-wash {
-  0% {
-    opacity: 0;
-  }
-  30% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
 .vocab-canvas-viewport.is-entering > * {
   animation: specimen-enter 0.42s cubic-bezier(0.32, 0.72, 0, 1) both;
 }
@@ -3575,7 +3567,7 @@ html[data-theme="dark"] .specimen-motion {
 
 /* Line height */
 .demo-stage[data-v="a"] .m-lh-block p {
-  line-height: 1.12;
+  line-height: 1.15;
 }
 
 /* Proximity */

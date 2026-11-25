@@ -495,8 +495,8 @@ const I18N = {
     sayToAI: 'Say to AI',
     copy: 'Copy prompt',
     copied: 'Copied',
-    langText: '中',
-    langAria: '切换到中文',
+    langText: 'EN',
+    langAria: 'Switch to Chinese',
     themeToDark: 'Switch to dark appearance',
     themeToLight: 'Switch to light appearance',
     empty: 'No terms match that filter.',
@@ -537,8 +537,8 @@ const I18N = {
     sayToAI: '对 AI 说',
     copy: '复制提示词',
     copied: '已复制',
-    langText: 'EN',
-    langAria: 'Switch to English',
+    langText: '中',
+    langAria: '切换到英文',
     themeToDark: '切换到深色外观',
     themeToLight: '切换到浅色外观',
     empty: '没有符合筛选条件的术语。',
@@ -578,7 +578,7 @@ const slugify = (name) => name.toLowerCase().replace(/&/g, 'and').replace(/[^a-z
 const THEME_KEY = 'design-vocab-theme';
 
 const state = {
-  lang: 'en',
+  lang: 'zh',
   term: 'Padding',
   feel: null,
   query: '',
@@ -744,14 +744,14 @@ const DEMOS = {
       </div>
       ${metric('gap: 12px')}`),
 
-  'Line Height': () =>
-    stage(`
+  'Line Height': () => {
+    const lh = state.compare === 'a' ? 1.15 : 1.75;
+    return stage(`
       <div class="m-lh-block">
-        <p>Good interfaces disappear.</p>
-        <p>What remains is rhythm.</p>
-        <p>Space answers first.</p>
+        <p>Good interfaces disappear. What remains is rhythm, the breathing of space, and a hierarchy that answers before the next question arrives.</p>
       </div>
-      ${metric('line-height: 1.75')}`),
+      ${metric(`line-height: ${lh}`)}`);
+  },
 
   Proximity: () =>
     stage(`
@@ -1451,16 +1451,6 @@ function showMeasureFor(ms = 3000) {
   measureTimer = window.setTimeout(() => stageEl.classList.remove('is-measuring'), ms);
 }
 
-function pulseCanvas() {
-  const viewport = el.detail.querySelector('.vocab-canvas-viewport');
-  if (!viewport) return;
-  viewport.classList.remove('is-flashing');
-  void viewport.offsetWidth;
-  viewport.classList.add('is-flashing');
-  window.clearTimeout(pulseCanvas.timer);
-  pulseCanvas.timer = window.setTimeout(() => viewport.classList.remove('is-flashing'), 960);
-}
-
 function setCompare(next) {
   if (state.compare === next) return;
   state.compare = next;
@@ -1474,7 +1464,6 @@ function setCompare(next) {
     btn.setAttribute('aria-pressed', String(btn.dataset.state === next));
   });
   updateToggleThumb();
-  pulseCanvas();
   if (term.name === 'Padding') showMeasureFor();
 }
 
@@ -1587,9 +1576,8 @@ function init() {
   initFromUrl();
   state.theme = loadTheme();
   applyTheme();
-  renderFeels();
-  renderIndex(true);
-  renderDetail(true);
+  applyLanguage(false);
+  centerSelectedItem();
 
   el.searchInput.addEventListener('input', (e) => {
     state.query = e.target.value;
