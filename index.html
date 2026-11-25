@@ -85,6 +85,37 @@
     </main>
   </div>
 
+  <div class="skill-modal" id="skillModal" hidden>
+    <div class="skill-modal-scrim" data-skill-close></div>
+    <div class="skill-modal-panel" role="dialog" aria-modal="true" aria-labelledby="skillModalTitle">
+      <button type="button" class="skill-modal-close" data-skill-close aria-label="Close">✕</button>
+      <div class="skill-modal-head">
+        <div class="skill-modal-heading">
+          <h2 class="skill-modal-title" id="skillModalTitle"></h2>
+          <p class="skill-modal-repo" id="skillModalRepo"></p>
+        </div>
+        <span class="skill-modal-stars" id="skillModalStars"></span>
+      </div>
+      <div class="skill-modal-stats" id="skillModalStats"></div>
+      <p class="skill-modal-summary" id="skillModalSummary"></p>
+      <div class="skill-modal-block">
+        <span class="skill-modal-label" id="skillModalListLabel"></span>
+        <ul class="skill-modal-list" id="skillModalList"></ul>
+      </div>
+      <div class="skill-modal-block">
+        <span class="skill-modal-label" id="skillModalInstallLabel"></span>
+        <div class="skill-modal-code">
+          <code id="skillModalInstall"></code>
+          <button type="button" class="skill-modal-copy" id="skillModalCopy"></button>
+        </div>
+      </div>
+      <div class="skill-modal-actions">
+        <a class="skill-modal-github" id="skillModalGithub" href="#" target="_blank" rel="noreferrer noopener"></a>
+        <button type="button" class="skill-modal-dismiss" id="skillModalClose" data-skill-close></button>
+      </div>
+    </div>
+  </div>
+
   <script src="assets/app.js"></script>
 </body>
 </html>

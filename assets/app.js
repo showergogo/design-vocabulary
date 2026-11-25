@@ -167,85 +167,324 @@ TERMS.forEach((term) => {
 const SKILLS = [
   {
     repo: 'excalidraw/excalidraw',
-    stars: 136223,
+    stars: 136269,
     lang: 'TypeScript',
     color: '#3178c6',
+    license: 'MIT',
+    homepage: 'https://excalidraw.com',
+    install: 'npm install @excalidraw/excalidraw',
     desc: 'Virtual whiteboard for sketching hand-drawn like diagrams.',
     zh: '手绘风格的虚拟白板，用于快速画图和协作。',
+    summary:
+      'An open-source virtual whiteboard with a hand-drawn look. The editor ships as an embeddable React component as well as a full standalone app.',
+    summaryZh:
+      '开源手绘风虚拟白板。编辑器既可作为 React 组件嵌入任意产品，也提供完整独立应用。',
+    points: [
+      'Canvas rendering engine with a hand-drawn sketch style',
+      'Local-first collaboration over end-to-end encrypted rooms',
+      'Drop-in <Excalidraw /> React component under MIT',
+    ],
+    pointsZh: [
+      'Canvas 渲染引擎，呈现自然的手绘笔触',
+      '基于端到端加密房间的本地优先协作',
+      'MIT 协议，可直接嵌入 <Excalidraw /> 组件',
+    ],
   },
   {
     repo: 'shadcn-ui/ui',
-    stars: 128922,
+    stars: 129011,
     lang: 'TypeScript',
     color: '#3178c6',
+    license: 'MIT',
+    homepage: 'https://ui.shadcn.com',
+    install: 'npx shadcn@latest init',
     desc: 'Composable, accessible components you can copy, customize and own.',
     zh: '可组合、可无障碍使用的组件，直接复制进项目并按需定制。',
+    summary:
+      'Not a dependency but a source registry: the CLI copies accessible React components into your repo so you own and edit every line.',
+    summaryZh:
+      '它不是依赖包，而是源码注册表：CLI 把无障碍 React 组件复制进你的仓库，每一行代码都由你掌控。',
+    points: [
+      'Copy-in source instead of a locked runtime package',
+      'Built on Radix primitives and Tailwind design tokens',
+      'CLI adds components, blocks and themes on demand',
+    ],
+    pointsZh: [
+      '源码复制模式，不受运行时依赖锁定',
+      '基于 Radix 原语与 Tailwind 设计令牌',
+      'CLI 按需添加组件、区块与主题',
+    ],
   },
   {
     repo: 'ant-design/ant-design',
-    stars: 100360,
+    stars: 100368,
     lang: 'TypeScript',
     color: '#3178c6',
+    license: 'MIT',
+    homepage: 'https://ant.design',
+    install: 'npm install antd',
     desc: 'An enterprise-class UI design language and React component library.',
     zh: '企业级 UI 设计语言与 React 组件库。',
+    summary:
+      'An enterprise React UI library with 60+ components, a design token system and mature patterns for data-heavy products.',
+    summaryZh:
+      '企业级 React UI 库，提供 60+ 组件、设计令牌体系，以及面向重数据产品的成熟模式。',
+    points: [
+      '60+ production-ready components and layouts',
+      'Design tokens with dark theme and compact density',
+      'Battle-tested Form, Table and enterprise flows',
+    ],
+    pointsZh: [
+      '60+ 生产级组件与典型布局',
+      '设计令牌，内置暗色主题与紧凑密度',
+      '久经考验的 Form、Table 与企业级流程',
+    ],
   },
   {
     repo: 'mui/material-ui',
-    stars: 99391,
+    stars: 99392,
     lang: 'JavaScript',
     color: '#f1e05a',
+    license: 'MIT',
+    homepage: 'https://mui.com/material-ui/',
+    install: 'npm install @mui/material @emotion/react @emotion/styled',
     desc: 'Comprehensive React component library implementing Material Design.',
     zh: '完整实现 Material Design 的 React 组件库。',
+    summary:
+      'The React implementation of Material Design, extended by MUI X for advanced data grids, charts and date pickers.',
+    summaryZh:
+      'Material Design 的 React 实现，并通过 MUI X 扩展出高级数据表格、图表与日期选择器。',
+    points: [
+      'Complete Material Design component set',
+      'Theme provider with tokens and style overrides',
+      'MUI X adds data grid, charts and date pickers',
+    ],
+    pointsZh: [
+      '完整的 Material Design 组件集',
+      'Theme provider 提供令牌与样式覆盖能力',
+      'MUI X 提供数据网格、图表与日期组件',
+    ],
   },
   {
     repo: 'tailwindlabs/tailwindcss',
-    stars: 98724,
+    stars: 98780,
     lang: 'TypeScript',
     color: '#3178c6',
+    license: 'MIT',
+    homepage: 'https://tailwindcss.com/',
+    install: 'npm install tailwindcss @tailwindcss/vite',
     desc: 'A utility-first CSS framework for rapid UI development.',
     zh: '原子化 CSS 框架，用工具类快速搭建界面。',
+    summary:
+      'A utility-first CSS framework. Version 4 moves configuration into CSS and ships a Rust-powered engine that only generates what you use.',
+    summaryZh:
+      '原子化 CSS 框架。v4 把配置直接放进 CSS，并用 Rust 引擎按需生成实际用到的样式。',
+    points: [
+      'Utilities composed directly in markup',
+      'CSS-first theme configuration in v4',
+      'JIT engine with near-zero unused CSS',
+    ],
+    pointsZh: [
+      '在标记中直接组合工具类',
+      'v4 采用 CSS 优先的主题配置',
+      'JIT 引擎，几乎不产生冗余 CSS',
+    ],
   },
   {
     repo: 'storybookjs/storybook',
-    stars: 91701,
+    stars: 91714,
     lang: 'TypeScript',
     color: '#3178c6',
+    license: 'MIT',
+    homepage: 'https://storybook.js.org',
+    install: 'npx storybook@latest init',
     desc: 'The workshop for building, documenting and testing UI components in isolation.',
     zh: '在隔离环境中开发、记录与测试 UI 组件的工作台。',
+    summary:
+      'The industry-standard workshop for UI components: stories double as documentation, interaction tests and visual review surfaces.',
+    summaryZh:
+      '业界标准的 UI 组件工作台：stories 同时承担文档、交互测试与视觉评审的职责。',
+    points: [
+      'Stories as living documentation and tests',
+      'Addon ecosystem for a11y, interactions and visual diffs',
+      'Works with React, Vue, Svelte, Angular and web components',
+    ],
+    pointsZh: [
+      'Stories 即可运行的文档与测试',
+      '插件生态覆盖无障碍、交互与视觉差异',
+      '支持 React、Vue、Svelte、Angular 与 Web Components',
+    ],
   },
   {
     repo: 'penpot/penpot',
-    stars: 62689,
+    stars: 62712,
     lang: 'Clojure',
     color: '#db5855',
+    license: 'MPL-2.0',
+    homepage: 'https://penpot.app',
+    install: 'docker compose -f docker-compose.yaml up -d',
     desc: 'Open-source design platform for product teams that need scalable collaboration.',
     zh: '面向产品团队的开源设计协作平台。',
+    summary:
+      'An open-source design and prototyping platform built on open standards, designed for real-time collaboration between designers and developers.',
+    summaryZh:
+      '基于开放标准的开源设计与原型平台，让设计师和开发者能实时协同。',
+    points: [
+      'Open standards: SVG, CSS and design tokens',
+      'Real-time multiplayer design and comments',
+      'Self-hostable under MPL-2.0',
+    ],
+    pointsZh: [
+      '拥抱 SVG、CSS 与设计令牌等开放标准',
+      '实时多人设计与评论',
+      'MPL-2.0 协议，可自托管',
+    ],
   },
   {
     repo: 'tldraw/tldraw',
-    stars: 51561,
+    stars: 51577,
     lang: 'TypeScript',
     color: '#3178c6',
+    license: 'Custom',
+    homepage: 'https://tldraw.dev',
+    install: 'npm install tldraw',
     desc: 'Build infinite canvas apps in React with a tiny, fast SDK.',
     zh: '用 React 构建无限画布应用的轻量 SDK。',
+    summary:
+      'A React SDK for infinite canvas products: shapes, camera, tools and multiplayer sync behind a polished default editor.',
+    summaryZh:
+      '用于构建无限画布产品的 React SDK：图形、相机、工具与多人同步都封装在精致的默认编辑器中。',
+    points: [
+      'Infinite canvas engine built for React',
+      'Multiplayer sync primitives and presence',
+      'Custom shapes, tools and UI overrides',
+    ],
+    pointsZh: [
+      '为 React 打造的无限画布引擎',
+      '多人同步原语与在线状态',
+      '支持自定义图形、工具与界面覆盖',
+    ],
   },
   {
     repo: 'chakra-ui/chakra-ui',
-    stars: 40741,
+    stars: 40747,
     lang: 'TypeScript',
     color: '#3178c6',
+    license: 'MIT',
+    homepage: 'https://chakra-ui.com',
+    install: 'npm install @chakra-ui/react',
     desc: 'A component system for building SaaS products with speed.',
     zh: '快速构建 SaaS 产品的组件系统。',
+    summary:
+      'A component system for SaaS: accessible primitives, semantic tokens and first-class dark mode without writing CSS files.',
+    summaryZh:
+      '面向 SaaS 的组件系统：无障碍原语、语义化令牌和开箱即用的暗色模式，几乎不用写 CSS 文件。',
+    points: [
+      'Accessible components built on Ark UI',
+      'Semantic tokens and color modes',
+      'Composable style props instead of CSS files',
+    ],
+    pointsZh: [
+      '基于 Ark UI 的无障碍组件',
+      '语义化令牌与颜色模式',
+      '以组合式 style props 替代 CSS 文件',
+    ],
   },
   {
     repo: 'motiondivision/motion',
-    stars: 35509,
+    stars: 35536,
     lang: 'TypeScript',
     color: '#3178c6',
+    license: 'MIT',
+    homepage: 'https://motion.dev',
+    install: 'npm install motion',
     desc: 'A modern animation library for React and JavaScript.',
     zh: '面向 React 与 JavaScript 的现代动画库。',
+    summary:
+      'A modern animation library for React and vanilla JS, covering springs, gestures, layout transitions and scroll-linked effects.',
+    summaryZh:
+      '面向 React 与原生 JS 的现代动画库，覆盖弹簧动画、手势、布局过渡与滚动联动效果。',
+    points: [
+      'Spring and tween animation primitives',
+      'Layout and shared-element transitions',
+      'Gestures, drag and scroll-linked motion',
+    ],
+    pointsZh: [
+      '弹簧与补间动画原语',
+      '布局动画与共享元素过渡',
+      '手势、拖拽与滚动联动动画',
+    ],
   },
 ];
+
+/* Two specimen states per term, mirroring the original "Compare specimen states" control. */
+const COMPARE = {
+  Padding: { a: 'Tight', b: 'Balanced', metricA: 'padding: 8px', metricB: 'padding: 20px' },
+  Gap: { a: 'Bunched', b: 'Clear', metricA: 'gap: 0', metricB: 'gap: 12px' },
+  'Line Height': { a: 'Dense', b: 'Readable', metricA: 'line-height: 1.15', metricB: 'line-height: 1.75' },
+  Proximity: { a: 'Detached', b: 'Grouped', metricA: 'equal 12px gaps', metricB: '8px / 24px' },
+  Whitespace: { a: 'Cramped', b: 'Airy', metricA: 'whitespace: 0', metricB: 'whitespace: 64px' },
+  'Divider vs. Space': { a: 'Divider', b: 'Space', metricA: 'divider between rows', metricB: '16px of space' },
+  Hierarchy: { a: 'Flat', b: 'Ranked', metricA: 'hierarchy: none', metricB: 'hierarchy: title → body' },
+  'Font Weight': { a: 'Uniform', b: 'Contrasted', metricA: '400 / 400', metricB: '400 / 600' },
+  Tracking: { a: 'Flat', b: 'Tracked', metricA: 'letter-spacing: 0', metricB: '-0.02em / 0.02em' },
+  'Tabular Numbers': { a: 'Proportional', b: 'Tabular', metricA: 'proportional-nums', metricB: 'tabular-nums' },
+  'Text Balance': { a: 'Ragged', b: 'Balanced', metricA: 'text-wrap: wrap', metricB: 'text-wrap: balance' },
+  'Line Clamp': { a: 'One line', b: 'Two lines', metricA: 'line-clamp: 1', metricB: 'line-clamp: 2' },
+  'Baseline Alignment': { a: 'Centered', b: 'Baseline', metricA: 'align-items: center', metricB: 'align-items: baseline' },
+  'Shortcut Hint': { a: 'Hidden', b: 'Visible', metricA: 'no shortcut hint', metricB: '⌘K shown' },
+  'Middle Truncation': { a: 'End', b: 'Middle', metricA: 'brand-identity-gu…', metricB: 'brand-identity…guidelines.png' },
+  Accent: { a: 'Scattered', b: 'Focused', metricA: 'accent everywhere', metricB: 'one accent, used once' },
+  Contrast: { a: 'Washed out', b: 'Crisp', metricA: 'contrast: 1.8 : 1', metricB: 'contrast: 4.6 : 1' },
+  'Muted Text': { a: 'Flat', b: 'Three levels', metricA: 'text: 1 level', metricB: 'text: 3 levels' },
+  'Semantic Color': { a: 'Ad hoc', b: 'Semantic', metricA: 'one-off colors', metricB: 'semantic tokens' },
+  'Tint & Shade': { a: 'Flat', b: 'Tinted', metricA: 'one hue only', metricB: 'tint · shade' },
+  'Border Radius': { a: 'Sharp', b: 'Rounded', metricA: 'border-radius: 2px', metricB: 'border-radius: 16px' },
+  'Concentric Radius': { a: 'Mismatched', b: 'Concentric', metricA: 'inner: 16px', metricB: '12px − 8px' },
+  'Nested Cards': { a: 'Heavy', b: 'Flat', metricA: 'border + shadow', metricB: 'border: 0.5px' },
+  'Hairline Border': { a: 'Heavy', b: 'Hairline', metricA: 'border-width: 2px', metricB: 'border-width: 0.5px' },
+  'Optical Alignment': { a: 'Geometric', b: 'Optical', metricA: 'offset: 0px', metricB: 'offset: 1px' },
+  'Avatar Stack': { a: 'Spaced', b: 'Stacked', metricA: 'overlap: 0', metricB: 'overlap: −8px' },
+  'Layered Shadow': { a: 'Single', b: 'Layered', metricA: 'box-shadow: 1 layer', metricB: 'box-shadow: 3 layers' },
+  Scrim: { a: 'Clear', b: 'Dimmed', metricA: 'scrim: 0%', metricB: 'scrim: 40%' },
+  'Edge Fade': { a: 'Hard cut', b: 'Faded', metricA: 'fade: 0px', metricB: 'fade: 24px' },
+  'Sticky Header': { a: 'Scrolls', b: 'Sticky', metricA: 'position: static', metricB: 'position: sticky' },
+  'Floating Bar': { a: 'Docked', b: 'Floating', metricA: 'offset: 0px', metricB: 'offset: 16px' },
+  Easing: { a: 'Linear', b: 'Eased', metricA: 'linear', metricB: 'cubic-bezier(.32,.72,0,1)' },
+  'Directional Motion': { a: 'Fade', b: 'Directional', metricA: 'fade in place', metricB: 'in right · out left' },
+  Spring: { a: 'Ease out', b: 'Spring', metricA: 'ease-out', metricB: 'stiffness 260 · damping 24' },
+  Stagger: { a: 'Together', b: 'Staggered', metricA: 'stagger: 0ms', metricB: 'stagger: 40ms' },
+  'Press State': { a: 'None', b: 'Pressed', metricA: 'no feedback', metricB: 'press: scale(0.96)' },
+  'Shared Element': { a: 'Cut', b: 'Shared', metricA: 'cut between states', metricB: 'shared element' },
+  'Origin-Aware Motion': { a: 'Center', b: 'Origin', metricA: 'transform-origin: center', metricB: 'transform-origin: trigger' },
+  'Hover Reveal': { a: 'Hidden', b: 'Revealed', metricA: 'actions hidden', metricB: 'hover reveal' },
+  'Button Hierarchy': { a: 'Flat', b: 'Ranked', metricA: '3 filled buttons', metricB: 'one primary action' },
+  'Touch Target': { a: '24 × 24', b: '44 × 44', metricA: 'target: 24px', metricB: 'target: 44px' },
+  'Empty State': { a: 'Blank', b: 'Guided', metricA: 'no next step', metricB: 'one clear action' },
+  'Inline Validation': { a: 'Deferred', b: 'Inline', metricA: 'error on submit', metricB: 'error at the field' },
+  Skeleton: { a: 'Static', b: 'Shimmer', metricA: 'no motion', metricB: 'matching layout' },
+  'Popover vs. Tooltip': { a: 'Tooltip', b: 'Popover', metricA: 'description only', metricB: 'actions inside' },
+  'Modal vs. Drawer': { a: 'Modal', b: 'Drawer', metricA: 'blocks the page', metricB: 'keeps context' },
+  'Tabs vs. Segmented': { a: 'Tabs', b: 'Segmented', metricA: 'separate views', metricB: 'one settings toggle' },
+  'Switch vs. Checkbox': { a: 'Checkbox', b: 'Switch', metricA: 'staged + submit', metricB: 'applies instantly' },
+  'Command Palette': { a: 'Buried', b: '⌘K', metricA: 'search in menus', metricB: 'one search box' },
+  'Bento Grid': { a: 'Uniform', b: 'Bento', metricA: 'equal tiles', metricB: 'mixed tile sizes' },
+  'Progressive Disclosure': { a: 'All at once', b: 'Progressive', metricA: '12 options visible', metricB: '3 hidden options' },
+  Combobox: { a: 'Plain list', b: 'Combobox', metricA: 'select a value', metricB: 'filters as you type' },
+  'Input Affix': { a: 'Plain', b: 'Affixed', metricA: 'units outside', metricB: 'prefix · suffix inside' },
+  'Split Button': { a: 'Single', b: 'Split', metricA: 'one action', metricB: 'main action + variants' },
+  'Prompt Composer': { a: 'Plain box', b: 'Composer', metricA: 'text only', metricB: 'attachments + model' },
+  'Streaming Text': { a: 'Waiting', b: 'Streaming', metricA: 'full response at once', metricB: 'tokens as they arrive' },
+  'Thinking Disclosure': { a: 'Collapsed', b: 'Expanded', metricA: 'reasoning hidden', metricB: 'reasoning on demand' },
+  'Citation Pill': { a: 'Plain', b: 'Cited', metricA: 'no source', metricB: 'source pill' },
+  'Slash Command': { a: 'Typed', b: 'Menu', metricA: 'remember the syntax', metricB: 'pick a command' },
+  'Diff View': { a: 'After only', b: 'Diff', metricA: 'result only', metricB: 'before + after' },
+  'Undo Toast': { a: 'Silent', b: 'Undo', metricA: 'action is final', metricB: '6s to undo' },
+  'Suggested Prompts': { a: 'Blank', b: 'Suggested', metricA: 'empty input', metricB: '3 starters' },
+  'Tool Call Steps': { a: 'Hidden', b: 'Steps', metricA: 'black box', metricB: 'tool call steps' },
+  'Context Chips': { a: 'Hidden', b: 'Chips', metricA: 'context unseen', metricB: 'attached context' },
+  'Approval Gate': { a: 'Auto', b: 'Approval', metricA: 'runs immediately', metricB: 'confirm first' },
+};
 
 const I18N = {
   en: {
@@ -268,6 +507,13 @@ const I18N = {
     skillsTitle: 'Design Skills',
     skillsIntro: 'The most-starred design and UI engineering projects on GitHub right now.',
     skillsSort: 'Sorted by GitHub stars',
+    modalLicense: 'License',
+    modalHighlights: 'What it gives you',
+    modalInstall: 'Install',
+    modalCopy: 'Copy',
+    modalCopied: 'Copied',
+    modalView: 'View on GitHub',
+    modalClose: 'Close',
     plan: 'Pro',
     badge: 'Popular',
     cardDesc: 'Unlimited boards, custom domains, and full version history.',
@@ -303,6 +549,13 @@ const I18N = {
     skillsTitle: '设计 Skill',
     skillsIntro: 'GitHub 上当前 Star 数最高的设计与 UI 工程类项目。',
     skillsSort: '按 GitHub Star 排序',
+    modalLicense: '许可证',
+    modalHighlights: '能力要点',
+    modalInstall: '安装',
+    modalCopy: '复制',
+    modalCopied: '已复制',
+    modalView: '前往 GitHub',
+    modalClose: '关闭',
     plan: '专业版',
     badge: '热门',
     cardDesc: '无限画板、自定义域名与完整版本历史。',
@@ -329,7 +582,7 @@ const state = {
   term: 'Padding',
   feel: null,
   query: '',
-  compare: 'balanced',
+  compare: 'b',
   theme: 'light',
   view: 'vocab',
 };
@@ -349,6 +602,19 @@ const el = {
   pageTitle: document.getElementById('pageTitle'),
   navVocab: document.getElementById('navVocab'),
   navSkills: document.getElementById('navSkills'),
+  skillModal: document.getElementById('skillModal'),
+  skillModalTitle: document.getElementById('skillModalTitle'),
+  skillModalRepo: document.getElementById('skillModalRepo'),
+  skillModalStars: document.getElementById('skillModalStars'),
+  skillModalStats: document.getElementById('skillModalStats'),
+  skillModalSummary: document.getElementById('skillModalSummary'),
+  skillModalListLabel: document.getElementById('skillModalListLabel'),
+  skillModalList: document.getElementById('skillModalList'),
+  skillModalInstallLabel: document.getElementById('skillModalInstallLabel'),
+  skillModalInstall: document.getElementById('skillModalInstall'),
+  skillModalCopy: document.getElementById('skillModalCopy'),
+  skillModalGithub: document.getElementById('skillModalGithub'),
+  skillModalClose: document.getElementById('skillModalClose'),
 };
 
 const tr = () => I18N[state.lang];
@@ -442,7 +708,7 @@ const avatar = (text, color) => `<span class="m-avatar" style="background:${colo
 
 const DEMOS = {
   Padding() {
-    const pad = state.compare === 'tight' ? 8 : 20;
+    const pad = state.compare === 'a' ? 8 : 20;
     const dict = tr();
     return `
       <div class="demo-stage" style="--pad:${pad}px">
@@ -582,9 +848,10 @@ const DEMOS = {
     stage(`
       <div class="m-file">
         <span class="m-file-icon"></span>
-        <span class="m-file-name">brand-identity-guidelines.png</span>
+        <span class="m-file-name m-file-end">brand-identity-guidelines…</span>
+        <span class="m-file-name m-file-mid">brand-identity…guidelines.png</span>
       </div>
-      ${metric('brand-identity…guidelines.png')}`),
+      ${metric('middle truncation')}`),
 
   Accent: () =>
     stage(`
@@ -628,7 +895,7 @@ const DEMOS = {
 
   'Tint & Shade': () =>
     stage(`
-      <div class="m-swatches">
+      <div class="m-swatches m-swatches--tint">
         <i style="background:#eef1d6"></i>
         <i style="background:#d3da9e"></i>
         <i style="background:#8a9a45"></i>
@@ -991,8 +1258,9 @@ function buildStage(term) {
 }
 
 function captionFor(term) {
-  if (term.name === 'Padding') return `padding: ${state.compare === 'tight' ? 8 : 20}px`;
-  return term.caption || '';
+  const cmp = COMPARE[term.name];
+  if (!cmp) return term.caption || '';
+  return state.compare === 'a' ? cmp.metricA : cmp.metricB || term.caption || '';
 }
 
 /* ------------------------------------------------------------- skills */
@@ -1002,10 +1270,10 @@ function fmtStars(n) {
 }
 
 function renderSkills() {
-  el.skillsList.innerHTML = SKILLS.map((s) => {
+  el.skillsList.innerHTML = SKILLS.map((s, i) => {
     const desc = state.lang === 'zh' ? s.zh : s.desc;
     return `
-      <a class="skill-item" href="https://github.com/${s.repo}" target="_blank" rel="noreferrer noopener">
+      <a class="skill-item" href="https://github.com/${s.repo}" target="_blank" rel="noreferrer noopener" data-index="${i}" aria-haspopup="dialog">
         <div class="skill-head">
           <span class="skill-name">${s.repo.split('/')[1]}</span>
           <span class="skill-stars">
@@ -1038,8 +1306,74 @@ function setView(view) {
   else el.navVocab.removeAttribute('aria-current');
   if (isVocab) el.navSkills.removeAttribute('aria-current');
   else el.navSkills.setAttribute('aria-current', 'page');
-  if (!isVocab) renderSkills();
+  if (isVocab) closeSkillModal(false);
+  else renderSkills();
   updatePageTitle();
+}
+
+/* --------------------------------------------------------------- skills modal */
+
+let modalIndex = -1;
+let modalReturnFocus = null;
+
+function showSkillModal(index) {
+  const s = SKILLS[index];
+  if (!s) return;
+  const dict = tr();
+  modalIndex = index;
+  if (el.skillModal.hidden) modalReturnFocus = document.activeElement;
+  el.skillModalTitle.textContent = s.repo.split('/')[1];
+  el.skillModalRepo.textContent = s.repo;
+  el.skillModalStars.textContent = `★ ${fmtStars(s.stars)}`;
+  el.skillModalStats.innerHTML = `
+    <span class="skill-modal-stat"><i style="background:${s.color}"></i>${s.lang}</span>
+    <span class="skill-modal-stat">${dict.modalLicense} · ${s.license}</span>
+    <span class="skill-modal-stat">${s.homepage.replace(/^https?:\/\//, '')}</span>`;
+  el.skillModalSummary.textContent = state.lang === 'zh' ? s.summaryZh : s.summary;
+  el.skillModalListLabel.textContent = dict.modalHighlights;
+  el.skillModalList.innerHTML = (state.lang === 'zh' ? s.pointsZh : s.points)
+    .map((p) => `<li>${p}</li>`)
+    .join('');
+  el.skillModalInstallLabel.textContent = dict.modalInstall;
+  el.skillModalInstall.textContent = s.install;
+  el.skillModalCopy.textContent = dict.modalCopy;
+  el.skillModalGithub.textContent = `${dict.modalView} ↗`;
+  el.skillModalGithub.href = `https://github.com/${s.repo}`;
+  el.skillModalClose.textContent = dict.modalClose;
+  el.skillModal.querySelector('.skill-modal-close').setAttribute('aria-label', dict.modalClose);
+  el.skillModal.hidden = false;
+  el.skillModalClose.focus();
+}
+
+function closeSkillModal(restoreFocus = true) {
+  if (el.skillModal.hidden) return;
+  el.skillModal.hidden = true;
+  modalIndex = -1;
+  if (restoreFocus && modalReturnFocus) modalReturnFocus.focus();
+  modalReturnFocus = null;
+}
+
+async function copyInstall() {
+  const s = SKILLS[modalIndex];
+  if (!s) return;
+  const btn = el.skillModalCopy;
+  try {
+    await navigator.clipboard.writeText(s.install);
+  } catch {
+    const ta = document.createElement('textarea');
+    ta.value = s.install;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    ta.remove();
+  }
+  btn.textContent = tr().modalCopied;
+  window.clearTimeout(copyInstall.timer);
+  copyInstall.timer = window.setTimeout(() => {
+    btn.textContent = tr().modalCopy;
+  }, 1400);
 }
 
 /* ------------------------------------------------------------ detail */
@@ -1048,12 +1382,13 @@ function renderDetail(animate = true) {
   const term = getTerm(state.term);
   const dict = tr();
   const localized = localize(term);
-  const showToggle = term.demo === 'card' && term.name === 'Padding';
-  const toggle = showToggle
+  const cmp = COMPARE[term.name];
+  const showToggle = !!cmp;
+  const toggle = cmp
     ? `<div class="vocab-compare-toggle" role="group" aria-label="Compare specimen states">
          <span class="vocab-compare-thumb" aria-hidden="true"></span>
-         <button type="button" data-state="tight" aria-pressed="${state.compare === 'tight'}">${dict.tight}</button>
-         <button type="button" data-state="balanced" aria-pressed="${state.compare === 'balanced'}">${dict.balanced}</button>
+         <button type="button" data-state="a" aria-pressed="${state.compare === 'a'}">${cmp.a}</button>
+         <button type="button" data-state="b" aria-pressed="${state.compare === 'b'}">${cmp.b}</button>
        </div>`
     : '';
 
@@ -1085,15 +1420,25 @@ function renderDetail(animate = true) {
       </div>
     </article>`;
 
+  applyCompareVisuals();
+
   if (showToggle) {
     el.detail.querySelectorAll('.vocab-compare-toggle button').forEach((btn) => {
       btn.addEventListener('click', () => setCompare(btn.dataset.state));
     });
     updateToggleThumb();
-    showMeasureFor();
+    requestAnimationFrame(updateToggleThumb);
+    if (term.name === 'Padding') showMeasureFor();
   }
 
   el.detail.querySelector('.vocab-copy-btn')?.addEventListener('click', copyPrompt);
+}
+
+function applyCompareVisuals() {
+  const stageEl = el.detail.querySelector('.demo-stage');
+  if (!stageEl) return;
+  stageEl.dataset.v = state.compare;
+  stageEl.style.setProperty('--pad', `${state.compare === 'a' ? 8 : 20}px`);
 }
 
 let measureTimer = 0;
@@ -1119,19 +1464,18 @@ function pulseCanvas() {
 function setCompare(next) {
   if (state.compare === next) return;
   state.compare = next;
-  const pad = next === 'tight' ? 8 : 20;
-  const stage = el.detail.querySelector('.demo-stage');
-  if (stage) stage.style.setProperty('--pad', `${pad}px`);
+  const term = getTerm(state.term);
+  applyCompareVisuals();
   const label = el.detail.querySelector('.demo-measure-label');
-  if (label) label.textContent = `padding: ${pad}px`;
+  if (label) label.textContent = `padding: ${next === 'a' ? 8 : 20}px`;
   const caption = el.detail.querySelector('.vocab-caption');
-  if (caption) caption.textContent = `padding: ${pad}px`;
+  if (caption) caption.textContent = captionFor(term);
   el.detail.querySelectorAll('.vocab-compare-toggle button').forEach((btn) => {
     btn.setAttribute('aria-pressed', String(btn.dataset.state === next));
   });
   updateToggleThumb();
   pulseCanvas();
-  showMeasureFor();
+  if (term.name === 'Padding') showMeasureFor();
 }
 
 function updateToggleThumb() {
@@ -1175,7 +1519,7 @@ async function copyPrompt() {
 function selectTerm(name, fromIndex) {
   if (state.term === name) return;
   state.term = name;
-  state.compare = 'balanced';
+  state.compare = 'b';
   const url = new URL(window.location.href);
   url.searchParams.set('term', slugify(name));
   history.replaceState(null, '', url);
@@ -1226,6 +1570,7 @@ function applyLanguage(animate = true) {
     renderDetail(animate);
   } else {
     renderSkills();
+    if (!el.skillModal.hidden && modalIndex >= 0) showSkillModal(modalIndex);
   }
 }
 
@@ -1265,6 +1610,10 @@ function init() {
   });
 
   document.addEventListener('keydown', (e) => {
+    if (!el.skillModal.hidden) {
+      if (e.key === 'Escape') closeSkillModal();
+      return;
+    }
     if (state.view !== 'vocab') return;
     if (e.key === '/' && document.activeElement !== el.searchInput) {
       e.preventDefault();
@@ -1274,6 +1623,19 @@ function init() {
 
   el.navVocab.addEventListener('click', () => setView('vocab'));
   el.navSkills.addEventListener('click', () => setView('skills'));
+
+  el.skillsList.addEventListener('click', (e) => {
+    const card = e.target.closest('.skill-item');
+    if (!card) return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    showSkillModal(Number(card.dataset.index));
+  });
+
+  el.skillModal.querySelectorAll('[data-skill-close]').forEach((node) => {
+    node.addEventListener('click', () => closeSkillModal());
+  });
+  el.skillModalCopy.addEventListener('click', copyInstall);
 
   el.indexScroll.addEventListener('scroll', updateFades, { passive: true });
 
